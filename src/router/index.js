@@ -14,13 +14,14 @@ export default new Router({
       name: 'projets',
       component: projets,
       //recupere component 'projets' de la vue projets
-     
+
     },
 
     {
-      path: '/details',
+      path: '/details/:id',
       name: 'detailsProject',
       component: detailsProject,
+      props: true
     },
   ]
 })
