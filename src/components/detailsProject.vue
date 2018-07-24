@@ -1,10 +1,10 @@
 <template>
     <div class="details">
-        <h1>Details projet</h1>
-        {{totoDetails.name}}<br>
-         <img :src="totoDetails.picture1"><br>
-         {{totoDetails.texte}}<br>
-         <router-link :to="'/'"><button id="back" class="btn btn-warning">Retour</button></router-link>
+        <h1>{{msg}}</h1>
+        <h2>{{totoDetails.name}}</h2><br>
+         <img :src="totoDetails.creator.picture"><br>
+         {{totoDetails.description}}<br>
+         <router-link :to="'/projets'"><button id="back" class="btn btn-warning">Retour</button></router-link>
     </div>
 </template>
 
@@ -19,7 +19,7 @@ export default {
   props: ["totoDetails"],
   data() {
     return {
-      msg: "Details des Projets"
+      msg: "Details du Projets"
     };
   }
 };
@@ -31,9 +31,8 @@ export default {
 
 <!--Style CSS-->
 <style>
-
 h1 {
-    font-weight: normal;
+  font-weight: normal;
 }
 .details {
   margin: 0 auto;
@@ -45,4 +44,6 @@ h1 {
   height: 800px;
   background-color: lightgrey;
 }
+
+
 </style>
