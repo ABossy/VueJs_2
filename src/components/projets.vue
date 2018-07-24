@@ -2,23 +2,51 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
      <!-- Formulaire AJOUT Projet-->
-     <div class="baniere">
-  <form @submit.prevent="addMachine">
-      <input type="text" placeholder="Nom du Projet" v-model="exemple.name" id="addInput">
-      <select name="status" v-model="exemple.isActive">
-        <option v-bind:value="true">ON</option>
-        <option v-bind:value="false">OFF</option>
-      </select>
-      <input type="submit" value="Ajouter">
-    </form>
-      <ul>
-   <oneProject v-for="projet in projetsData" :toto="projet" :key="projet.id"
-    v-if="!hideOffProjets || toto.isActive"></oneProject>
-   </ul>
+     <div>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  New Project
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div class="form-group">
+                <label for="titre" class="col-form-label">Titre:</label>
+                <input v-model="test.name" type="text" class="form-control" id="name">
+              </div>
+              <div class="form-group">
+                <label for="image" class="col-form-label">Image:</label>
+                    <input v-model="test.picture" type="url" class="form-control" id="image" value="https://s3.amazonaws.com/uifaces/faces/twitter/aio___/128.jpg">
+            </div>
+              <div class="form-group">
+                    <label for="description" class="col-form-label">Description:</label>
+                    <input v-model="test.description" type="text" class="form-control" id="description">
+                  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" @click="addProjet()" class="btn btn-primary" data-dismiss="modal">Add</button>
+      </div>
+    </div>
   </div>
 </div>
-  
-    
+
+     </div>
+    <div>
+      <ul>
+        <oneProject v-for="projet in projetsData" :toto="projet" :key="projet.id">
+        </oneProject>
+      </ul>
+    </div>   
+  </div>
 </template>
 
 
@@ -26,43 +54,73 @@
 
 <!-- DATAS-->
 <script>
+import axios from "axios";
 import oneProject from "./oneProject.vue";
 import detailsProject from "./detailsProject.vue";
 
 export default {
   components: {
     oneProject: oneProject, // component de la vue oneProject que j'appelle ici.
-    detailsProject: detailsProject
+    detailsProject: detailsProject,
+    
   },
   name: "projets",
-  props: ["projetsData"],
+  // props: ["projetsData"],
   data() {
     return {
       msg: "LISTE DES PROJETS",
-      hideOffProjets: false,
-      exemple: {
-        id: 3,
-        name: "",
-        picture: "https://picsum.photos/200/300/?random",
-        isActive: true
+      projetsData: [],
+      test: {
+        name: "exemple",
+        picture: "",
+        description:"",
+        collaborators: []
+        
       }
     };
   },
+  created() {
+    axios
+      .get(
+        "https://daily-standup-campus.herokuapp.com/api/projects",
+        {
+            headers: {
+              Authorization:
+                "Bearer " +
+            localStorage.getItem('userTokenKey')
+              //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg"
+            }
+          }
+      )
+      .then(response => {
+        console.log(response.data);
+        this.projetsData = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  },
 
   methods: {
-    // Création d'un nouvel objet dans la collection machines
-    addMachine: function(e) {
-      this.exemple.id += 1;
-      this.projetsData.push({
-        id: this.exemple.id,
-        isActive: this.exemple.isActive,
-        name: this.exemple.name,
-        picture: "https://picsum.photos/200/300/?random",
-        picture1: "https://picsum.photos/200/300/?random",
-        texte:
-          "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,"
-      });
-    }
+    addProjet: function() {
+      axios
+        .post("https://daily-standup-campus.herokuapp.com/api/projects", 
+         this.test,
+        
+        {
+        headers: {
+      Authorization:
+        "Bearer " +
+            localStorage.getItem('userTokenKey')
+       
+      }
+    })
+    
+        .then(function(reponse) {
+          $("#exampleModal").modal("hide");
+          alert("projet creation");
+        });
+    } // Création d'un nouvel objet dans la collection projets.
   }
 };
 </script>
@@ -90,7 +148,6 @@ input,
 select {
   padding: 4px;
   font-size: 18px;
- 
 }
 
 .formAdd {
@@ -99,6 +156,6 @@ select {
 }
 
 .baniere {
-  background-color: darkgrey
+  background-color: darkgrey;
 }
 </style>
