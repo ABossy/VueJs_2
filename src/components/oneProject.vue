@@ -1,7 +1,6 @@
 <template>
     <div>
-        <div class="col col-md-4 col-lg-4">
-            
+        <div class="col col-md-4 col-lg-4">   
           <div class="bord">
             <h3>{{toto.name}}</h3><br>
                 <img :src="toto.creator.picture"><br>
@@ -22,8 +21,7 @@ export default {
   props: ["toto"], // mot clé qui va me permettre d'acceder aux infos listeProjets.
   data() {
     return {
-      hideOffProjet: false,
-      projets: [], // au début la liste des machines est vide
+      projets: [], // au début la liste des projets est vide
       loading: false,
       error: null
     };
@@ -31,14 +29,19 @@ export default {
 
   methods: {
     deleteProjet: function(id) {
+      let tokenGlobal = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg";
+      if(this.$route.path === '/myproject'){
+        tokenGlobal =  localStorage.getItem("userTokenKey");
+      }
       axios
         .delete(
           "https://daily-standup-campus.herokuapp.com/api/projects/" + id,
           {
             headers: {
               Authorization:
-                "Bearer " + localStorage.getItem('userTokenKey')
-                //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg"
+                "Bearer " + tokenGlobal
+               
+                
             }
           }
         )
