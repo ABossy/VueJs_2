@@ -1,10 +1,10 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ msg }}</h1><hr>
      <!-- Formulaire AJOUT Projet-->
      <div>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  New Project
+  Add New Project
 </button>
 
 <!-- Modal -->
@@ -71,7 +71,7 @@ export default {
       msg: "LISTE DES PROJETS",
       projetsData: [],
       test: {
-        name: "exemple",
+        name: "",
         picture: "",
         description:"",
         collaborators: []
@@ -87,8 +87,8 @@ export default {
             headers: {
               Authorization:
                 "Bearer " +
-            localStorage.getItem('userTokenKey')
-              //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg"
+            // localStorage.getItem('userTokenKey')
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg"
             }
           }
       )
@@ -111,7 +111,8 @@ export default {
         headers: {
       Authorization:
         "Bearer " +
-            localStorage.getItem('userTokenKey')
+        localStorage.getItem('userTokenKey')
+            //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg"
        
       }
     })
