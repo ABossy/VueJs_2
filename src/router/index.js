@@ -15,6 +15,7 @@ export default new Router({
       path: '/',
       name: 'login',
       component: login,
+      
      
     },
     
@@ -22,7 +23,7 @@ export default new Router({
       path: '/projets',
       name: 'projets',
       component: projets,
-    
+      beforeEnter:(authAccess),
 
     },
 
@@ -37,7 +38,19 @@ export default new Router({
       path: '/myproject',
       name: 'myproject',
       component: myproject,
+      beforeEnter:(authAccess),
       
     },
   ]
 })
+
+function authAccess (to, from, next) {
+  if (localStorage.getItem("userTokenKey")) {
+    next()
+  } else {
+    next({
+      path:'/',
+      query: {redirect: to.fullpath}
+    })
+  }
+}
