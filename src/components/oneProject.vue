@@ -6,7 +6,7 @@
                 <img :src="toto.creator.picture"><br>
                     <router-link  id="button" class="btn btn-info" :to="{name:'detailsProject', params:{totoDetails:toto,id: toto.id}}">Consulter le Projet</router-link><br>
                     <p>{{toto.description}}</p>
-                    <button id="back"  @click="deleteProjet(toto.id)" class="btn btn-danger">Delete</button>
+                    <button id="delete" @click="deleteProjet(toto.id)" class="btn btn-danger" type="button">Delete</button>
           </div>
         </div>
     </div>
@@ -29,24 +29,22 @@ export default {
 
   methods: {
     deleteProjet: function(id) {
-      let tokenGlobal = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg";
-      if(this.$route.path === '/myproject'){
-        tokenGlobal =  localStorage.getItem("userTokenKey");
+      let tokenGlobal =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg";
+      if (this.$route.path === "/myproject") {
+        tokenGlobal = localStorage.getItem("userTokenKey");
       }
       axios
         .delete(
           "https://daily-standup-campus.herokuapp.com/api/projects/" + id,
           {
             headers: {
-              Authorization:
-                "Bearer " + tokenGlobal
-               
-                
+              Authorization: "Bearer " + tokenGlobal
             }
           }
         )
-        .then(function(reponse) {
-          alert("delete creation");
+        .then(response => {
+          this.$emit("titi");
         });
     }
   }
