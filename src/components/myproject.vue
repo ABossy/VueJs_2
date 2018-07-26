@@ -2,7 +2,7 @@
     <div>
         <h1>{{msg}}</h1><hr>   
             <router-link :to="'/projets'"><button id="back" class="btn btn-warning">Retour</button></router-link>
-                <oneProject v-for="projet in myprojects" :toto="projet" :key="projet.id"></oneProject>                
+                <oneProject v-for="projet in myprojects" :toto="projet" :key="projet.id" @titi="getData" ></oneProject>                
     </div>
    
     
@@ -42,6 +42,18 @@ export default {
   },
 
   methods: {
+    getData: function(){
+       axios
+      .get(
+        "https://daily-standup-campus.herokuapp.com/api/projects?access_token=" +
+          localStorage.getItem("userTokenKey")
+      )
+
+      .then(response => {
+        console.log(response);
+        this.myprojects = response.data;
+      });
+    }
   }
 };
 
