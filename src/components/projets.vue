@@ -38,11 +38,10 @@
     </div>
   </div>
 </div>
-
      </div>
     <div>
       <ul>
-        <oneProject v-for="projet in projetsData" :toto="projet" :key="projet.id">
+        <oneProject v-for="projet in projetsData" :toto="projet" :key="projet.id" @titi="getData">
         </oneProject>
       </ul>
     </div>   
@@ -61,8 +60,7 @@ import detailsProject from "./detailsProject.vue";
 export default {
   components: {
     oneProject: oneProject, // component de la vue oneProject que j'appelle ici.
-    detailsProject: detailsProject,
-    
+    detailsProject: detailsProject
   },
   name: "projets",
   // props: ["projetsData"],
@@ -73,25 +71,45 @@ export default {
       test: {
         name: "",
         picture: "",
-        description:"",
+        description: "",
         collaborators: []
-        
       }
     };
   },
   created() {
-    axios
-      .get(
-        "https://daily-standup-campus.herokuapp.com/api/projects",
-        {
+   this.getData();
+  },
+
+  methods: {
+    addProjet: function() {
+      axios
+        .post(
+          "https://daily-standup-campus.herokuapp.com/api/projects",
+          this.test,
+
+          {
             headers: {
-              Authorization:
-                "Bearer " +
-            // localStorage.getItem('userTokenKey')
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg"
+              Authorization: "Bearer " + localStorage.getItem("userTokenKey")
+              //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg"
             }
           }
-      )
+        )
+
+        .then(function(response) {
+          $("#exampleModal").modal("hide");
+          alert("projet creation");
+        });
+    }, // Création d'un nouvel objet dans la collection projets.
+
+    getData: function() {
+     axios
+      .get("https://daily-standup-campus.herokuapp.com/api/projects", {
+        headers: {
+          Authorization:
+            "Bearer " +
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg"
+        }
+      })
       .then(response => {
         console.log(response.data);
         this.projetsData = response.data;
@@ -99,29 +117,7 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
-  },
-
-  methods: {
-    addProjet: function() {
-      axios
-        .post("https://daily-standup-campus.herokuapp.com/api/projects", 
-         this.test,
-        
-        {
-        headers: {
-      Authorization:
-        "Bearer " +
-        localStorage.getItem('userTokenKey')
-            //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMjNmODIzYTM5YjlmMDAxNGViNGJlNiIsImlhdCI6MTUzMTE0Mjg1MX0.K5e_nO1kl0sOOK8rvjYTiRkHPk2vBoGcSGY0Xh3zVQg"
-       
-      }
-    })
-    
-        .then(function(reponse) {
-          $("#exampleModal").modal("hide");
-          alert("projet creation");
-        });
-    } // Création d'un nouvel objet dans la collection projets.
+    }
   }
 };
 </script>
