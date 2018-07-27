@@ -4,6 +4,7 @@ import projets from '@/components/projets'
 import detailsProject from '@/components/detailsProject.vue';
 import login from '@/components/login';
 import myproject from '@/components/myproject';
+import register from '@/components/register';
 import ToggleButton from 'vue-js-toggle-button'
 Vue.use(ToggleButton)
 
@@ -40,6 +41,14 @@ export default new Router({
       component: myproject,
       beforeEnter:(authAccess),
       
+    },
+
+    {
+      path: '/register',
+      name: 'register',
+      component: register,
+      
+     
     },
   ]
 })
