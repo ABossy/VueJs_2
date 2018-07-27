@@ -9,7 +9,7 @@
       <li class="active"><a href="/">Home</a></li>
       <li><router-link :to="{name:'projets'}">Liste des projets</router-link></li>
       <li><router-link :to="{name:'myproject'}">Mes Projets</router-link></li>
-      <li><router-link :to="{name:'login'}">Login</router-link></li>
+      <li><router-link :to="{name:'register'}">Register</router-link></li>
     </ul>
   </div>
 </nav>
@@ -22,6 +22,7 @@
 import oneProject from "./components/oneProject.vue";
 import detailsProject from "./components/detailsProject.vue";
 import myproject from "./components/myproject.vue";
+import register from "./components/register.vue";
 
 export default {
   name: "App",
@@ -41,8 +42,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
 }
 
+.container-fluid{
+  margin: auto;
+}
 
 </style>
